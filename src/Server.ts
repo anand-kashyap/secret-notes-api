@@ -5,6 +5,7 @@ import 'express-async-errors';
 import helmet from 'helmet';
 import StatusCodes from 'http-status-codes';
 import morgan from 'morgan';
+import { createConnection } from 'mysql2/promise';
 import BaseRouter from './routes';
 
 const app = express();
@@ -17,6 +18,18 @@ const { BAD_REQUEST } = StatusCodes;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.use(async (req, res, next) => {
+  // init mysql connection
+  const db = await createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+  });
+  req.DB = db;
+  next();
+});
 
 // Show routes called in console during development
 if (process.env.NODE_ENV === 'development') {

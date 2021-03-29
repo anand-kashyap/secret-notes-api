@@ -16,7 +16,7 @@
     "ignore": [
       "src/public"
     ],
-    "exec": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./src"
+    "exec": "./node_modules/.bin/ts-node --files -r tsconfig-paths/register ./src"
   },
   "_moduleAliases": {
     "@shared": "dist/shared",
@@ -67,7 +67,8 @@
     "jet-logger": "^1.0.4",
     "jsonfile": "^6.1.0",
     "module-alias": "^2.2.2",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "mysql2": "^2.2.5"
   },
   "devDependencies": {
     "@types/command-line-args": "^5.0.0",

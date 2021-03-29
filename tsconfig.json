@@ -65,7 +65,7 @@
       "@server": [
         "src/Server"
       ]
-    },
+    }
   },
   "include": [
     "src/**/*.ts",
@@ -73,5 +73,8 @@
   ],
   "exclude": [
     "src/public/"
+  ],
+  "files": [
+    "custom.d.ts"
   ]
 }

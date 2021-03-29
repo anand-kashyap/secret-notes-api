@@ -1,11 +1,25 @@
 @baseUrl = http://localhost:3000/api
 
-###
-GET {{baseUrl}}/users/all HTTP/1.1
-###
-POST {{baseUrl}}/users/all HTTP/1.1
+### List all encryptions
+GET {{baseUrl}}/encryptions HTTP/1.1
+### list notes
+GET {{baseUrl}}/notes HTTP/1.1
+### add note
+POST {{baseUrl}}/notes/add HTTP/1.1
 content-type: application/json
+
 {
-    "name": "sample",
-    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+    "message": "direct text",
+    "encryption": 1
 }
+### update note
+PATCH {{baseUrl}}/notes/update HTTP/1.1
+content-type: application/json
+
+{
+    "id": 8,
+    "message": "direct text 55",
+    "encryption": 1
+}
+### delete note
+DELETE {{baseUrl}}/notes/delete/7 HTTP/1.1
