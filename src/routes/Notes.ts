@@ -6,6 +6,17 @@ import StatusCodes from 'http-status-codes';
 const router = Router();
 const { BAD_REQUEST, CREATED, OK } = StatusCodes;
 
+router.get('/:id', async (req: Request, res: Response) => {
+  const { id } = req.params;
+  if (!id || isNaN(id as any)) {
+    return res.status(BAD_REQUEST).json({
+      error: paramMissingError,
+    });
+  }
+  const noteId = parseInt(id);
+  const [rows] = await req.DB.execute(`SELECT * FROM notes WHERE id = ${noteId}`);
+  return res.status(OK).json({ rows });
+});
 router.get('/', async (req: Request, res: Response) => {
   const [rows] = await req.DB.execute('SELECT * FROM `notes` ORDER BY timestamp DESC');
   return res.status(OK).json({ rows });
