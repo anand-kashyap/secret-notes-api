@@ -7,7 +7,7 @@ GET {{baseUrl}}/notes HTTP/1.1
 ### get note by id
 GET {{baseUrl}}/notes/8 HTTP/1.1
 ### add note
-POST {{baseUrl}}/notes/add HTTP/1.1
+POST {{baseUrl}}/notes HTTP/1.1
 content-type: application/json
 
 {
@@ -15,7 +15,7 @@ content-type: application/json
     "encryption": 1
 }
 ### update note
-PATCH {{baseUrl}}/notes/update HTTP/1.1
+PATCH {{baseUrl}}/notes HTTP/1.1
 content-type: application/json
 
 {
@@ -24,4 +24,4 @@ content-type: application/json
     "encryption": 1
 }
 ### delete note
-DELETE {{baseUrl}}/notes/delete/7 HTTP/1.1
+DELETE {{baseUrl}}/notes/7 HTTP/1.1

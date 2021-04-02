@@ -22,7 +22,7 @@ router.get('/', async (req: Request, res: Response) => {
   return res.status(OK).json({ rows });
 });
 
-router.post('/add', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response) => {
   const { message, encryption } = req.body;
   if (!message || !encryption) {
     return res.status(BAD_REQUEST).json({
@@ -34,7 +34,7 @@ router.post('/add', async (req: Request, res: Response) => {
   return res.status(CREATED).json({ id: rows.insertId });
 });
 
-router.patch('/update', async (req: Request, res: Response) => {
+router.patch('/', async (req: Request, res: Response) => {
   const { message, encryption, id } = req.body;
   if (!message || !encryption || !id || isNaN(id)) {
     return res.status(BAD_REQUEST).json({
@@ -48,7 +48,7 @@ router.patch('/update', async (req: Request, res: Response) => {
   return res.status(OK).end();
 });
 
-router.delete('/delete/:id', async (req: IRequest, res: Response) => {
+router.delete('/:id', async (req: IRequest, res: Response) => {
   const { id } = req.params;
   if (!id || isNaN(id as any)) {
     return res.status(BAD_REQUEST).json({
