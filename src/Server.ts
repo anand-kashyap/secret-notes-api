@@ -1,5 +1,6 @@
 import logger from '@shared/Logger';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
 import helmet from 'helmet';
@@ -15,6 +16,7 @@ const { BAD_REQUEST } = StatusCodes;
  *                              Set basic express settings
  ***********************************************************************************/
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
