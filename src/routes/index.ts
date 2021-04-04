@@ -27,6 +27,9 @@ router.post('/decrypt', (req, res) => {
       });
       finalMsg = decrypted;
       break;
+    case 'backwards':
+      finalMsg = [...message].reverse().join('');
+      break;
 
     default:
       break;

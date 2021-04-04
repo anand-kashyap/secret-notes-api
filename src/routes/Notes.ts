@@ -48,6 +48,9 @@ router.post('/', async (req: Request, res: Response) => {
       finalMsg = strArr.join('');
       console.log('emoji str', finalMsg);
       break;
+    case 'backwards':
+      finalMsg = [...finalMsg].reverse().join('');
+      break;
     case 'letter-scramble':
       break;
     default:
