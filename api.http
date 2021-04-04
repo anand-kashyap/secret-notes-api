@@ -23,7 +23,8 @@ content-type: application/json
 {
     "id": 8,
     "message": "direct text 55",
-    "encryption": 1
+    "encryption": 1,
+    "encName": "backwards"
 }
 ### delete note
 DELETE {{baseUrl}}/notes/7 HTTP/1.1
