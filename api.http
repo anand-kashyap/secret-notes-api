@@ -5,7 +5,9 @@ GET {{baseUrl}}/encryptions HTTP/1.1
 ### list notes
 GET {{baseUrl}}/notes HTTP/1.1
 ### get note by id
-GET {{baseUrl}}/notes/8 HTTP/1.1
+GET {{baseUrl}}/notes/14 HTTP/1.1
+### get note by id decrypted
+GET {{baseUrl}}/notes/14?decrypt=true HTTP/1.1
 ### add note
 POST {{baseUrl}}/notes HTTP/1.1
 content-type: application/json

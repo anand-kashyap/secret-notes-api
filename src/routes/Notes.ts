@@ -1,7 +1,9 @@
-import { IRequest, paramMissingError } from '@shared/constants';
+import { paramMissingError } from '@shared/constants';
 import logger from '@shared/Logger';
 import { Request, Response, Router } from 'express';
-import StatusCodes from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
+import { IEncryption } from 'src/interfaces';
+import emojiMap from '../encryptions/emo-gize.json';
 
 const router = Router();
 const { BAD_REQUEST, CREATED, OK } = StatusCodes;
@@ -23,15 +25,40 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 router.post('/', async (req: Request, res: Response) => {
-  const { message, encryption } = req.body;
-  if (!message || !encryption) {
+  const { message, encryption, encObj } = req.body;
+  if (!message || !encryption || !encObj) {
     return res.status(BAD_REQUEST).json({
       error: paramMissingError,
     });
   }
-  const [rows]: any = await req.DB.execute(`INSERT INTO notes (message, encryption) VALUES ('${message}', '${encryption}')`);
+  const { name } = encObj as IEncryption;
+  let finalMsg: string = message;
+  switch (name) {
+    case 'backwards':
+      finalMsg = finalMsg.split('').reverse().join('');
+      break;
+    case 'emo-gize':
+      // convert chars to emoji unicode
+      const strArr = [...finalMsg];
+      for (let i = 0; i < strArr.length; i++) {
+        const char = strArr[i];
+        const unicode = (emojiMap as any)[char];
+        if (unicode) strArr[i] = unicode;
+      }
+      finalMsg = strArr.join('');
+      console.log('emoji str', finalMsg);
+      break;
+    case 'letter-scramble':
+      break;
+    default:
+      // nothing or unkown
+      break;
+  }
 
-  return res.status(CREATED).json({ id: rows.insertId });
+  const [rows]: any = await req.DB.execute(`INSERT INTO notes (message, encryption) VALUES ('${finalMsg}', '${encryption}')`);
+
+  // return res.status(CREATED).json({ rows: '' });
+  return res.status(CREATED).json({ rows: [{ createdId: rows.insertId }] });
 });
 
 router.patch('/', async (req: Request, res: Response) => {
@@ -48,7 +75,7 @@ router.patch('/', async (req: Request, res: Response) => {
   return res.status(OK).end();
 });
 
-router.delete('/:id', async (req: IRequest, res: Response) => {
+router.delete('/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
   if (!id || isNaN(id as any)) {
     return res.status(BAD_REQUEST).json({
