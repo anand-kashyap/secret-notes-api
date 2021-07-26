@@ -1,2 +1,4 @@
 node_modules
 src/pre-start/env
+dist
+jet-logger.log

@@ -2,7 +2,7 @@
   "name": "secret-notes-api",
   "version": "0.0.1",
   "scripts": {
-    "build": "./node_modules/.bin/ts-node build.ts",
+    "build": "./node_modules/.bin/ts-node build.ts && ./node_modules/.bin/tsc --build tsconfig.prod.json",
     "lint": "eslint . --ext .ts",
     "start": "node -r module-alias/register ./dist --env=production",
     "start:dev": "nodemon",
