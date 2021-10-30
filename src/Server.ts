@@ -3,6 +3,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
+import { readFileSync } from 'fs';
 import helmet from 'helmet';
 import StatusCodes from 'http-status-codes';
 import morgan from 'morgan';
@@ -23,11 +24,14 @@ app.use(cookieParser());
 
 app.use(async (req, res, next) => {
   // init mysql connection
-  const db = await createConnection({
+  const db = await (createConnection as any)({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
+    ssl: {
+      cert: readFileSync('ca.pem'),
+    },
   });
   req.DB = db;
   next();

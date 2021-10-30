@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3000/api
+@baseUrl = http://localhost:3002/api
 
 ### List all encryptions
 GET {{baseUrl}}/encryptions HTTP/1.1

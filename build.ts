@@ -15,9 +15,13 @@ logger.timestamp = false;
     // Remove current build
     await remove('./dist/');
     // Copy production env file
-    await copy('./src/pre-start/env/production.env', './dist/pre-start/env/production.env');
+    await copy(
+      './src/pre-start/env/production.env',
+      './dist/pre-start/env/production.env'
+    );
+    await copy('./ca.pem', './dist/ca.pem');
     // Copy back-end files
-//    await exec('tsc --build tsconfig.prod.json', './');
+    //    await exec('tsc --build tsconfig.prod.json', './');
   } catch (err) {
     logger.err(err);
   }
@@ -25,7 +29,7 @@ logger.timestamp = false;
 
 function remove(loc: string): Promise<void> {
   return new Promise((res, rej) => {
-    return fs.remove(loc, (err) => {
+    return fs.remove(loc, err => {
       return !!err ? rej(err) : res();
     });
   });
@@ -33,7 +37,7 @@ function remove(loc: string): Promise<void> {
 
 function copy(src: string, dest: string): Promise<void> {
   return new Promise((res, rej) => {
-    return fs.copy(src, dest, (err) => {
+    return fs.copy(src, dest, err => {
       return !!err ? rej(err) : res();
     });
   });
