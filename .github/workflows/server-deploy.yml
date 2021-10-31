@@ -11,8 +11,6 @@ jobs:
           node-version: 16.13.0
       - name: Build code
         run: yarn build
-      - name: remove prod env file
-        run: rm -f dist/pre-start/env/production.env
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1
         with:
@@ -27,8 +25,8 @@ jobs:
           envkey_JET_LOGGER_FILEPATH: jet-logger.log
           envkey_JET_LOGGER_TIMESTAMP: TRUE
           envkey_JET_LOGGER_FORMAT: LINE
-          directory: dist/pre-start/env
-          file_name: production.env
+      - name: move env file
+        run: mv .env dist/pre-start/env/production.env
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         env:
