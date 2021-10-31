@@ -11,6 +11,8 @@ jobs:
           node-version: 16.13.0
       - name: Build code
         run: yarn build
+      - name: remove prod env file
+        run: rm -f dist/pre-start/env/production.env
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1
         with:
