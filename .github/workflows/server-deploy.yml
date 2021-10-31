@@ -1,0 +1,41 @@
+name: deploy on server and setup env
+on: [push]
+jobs:
+  build:
+    environment: production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Yarn setup with cache
+        uses: DerYeger/yarn-setup-action@master
+        with:
+          node-version: 16.13.0
+      - name: Build code
+        run: yarn build
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_BAR: ${{ secrets.BAR }}
+          envkey_NODE_ENV: production
+          envkey_PORT: 3002
+          envkey_HOST: localhost
+          envkey_DB_HOST: ${{ secrets.DB_HOST }}
+          envkey_DB_NAME: ${{ secrets.DB_NAME }}
+          envkey_DB_USER: ${{ secrets.DB_USER }}
+          envkey_DB_PASS: ${{ secrets.DB_PASS }}
+          envkey_JET_LOGGER_MODE: FILE
+          envkey_JET_LOGGER_FILEPATH: jet-logger.log
+          envkey_JET_LOGGER_TIMESTAMP: TRUE
+          envkey_JET_LOGGER_FORMAT: LINE
+          directory: dist/pre-start/env
+          file_name: production.env
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          #! pkey must be in PEM format (id_DSO_rsa) - https://github.com/easingthemes/ssh-deploy#1-ssh_private_key-required
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: '-rltgoDzvO --delete'
+          SOURCE: ''
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
+          EXCLUDE: '/dist/, /node_modules/'

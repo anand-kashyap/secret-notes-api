@@ -2,3 +2,5 @@ node_modules
 src/pre-start/env
 dist
 jet-logger.log
+src/pre-start/env/production.env
+src/pre-start/env/development.env
